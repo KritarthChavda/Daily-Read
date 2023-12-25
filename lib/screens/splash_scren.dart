@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:daily_read/screens/home_scree.dart';
+import 'package:daily_read/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 3), () {
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => HomeScreen(),
@@ -28,8 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final height = MediaQuery.sizeOf(context).height * 1;
-    // final width = MediaQuery.sizeOf(context).height * 1;
+    final height = MediaQuery.sizeOf(context).height * 1;
+    final width = MediaQuery.sizeOf(context).height * 1;
     return Scaffold(
       body: Container(
         child: Column(
@@ -38,19 +38,13 @@ class _SplashScreenState extends State<SplashScreen> {
             Image.asset(
               'images/splashmain.jpg',
               fit: BoxFit.cover,
-              width: 320,
-              height: 390,
+              width: width * 0.4,
+              height: height * 0.5,
             ),
             const SizedBox(
               height: 20,
             ),
-            Text("Headlines",
-                style: GoogleFonts.anton(
-                    letterSpacing: 0.6, color: Colors.grey.shade700)),
-            const SizedBox(
-              height: 20,
-            ),
-            const SpinKitFoldingCube(
+            const SpinKitThreeBounce(
               color: Colors.blue,
               size: 40,
             )

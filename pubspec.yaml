@@ -39,7 +39,7 @@ dependencies:
   flutter_spinkit: ^5.2.0
   http: ^1.1.2
   intl:
-  cached_network_image:
+  cached_network_image: ^3.3.0
 
   
 
