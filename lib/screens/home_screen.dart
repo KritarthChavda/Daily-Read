@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:daily_read/models/categories_model.dart';
 import 'package:daily_read/screens/categories_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -117,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         body: ListView(
           children: [
-            Container(
+            SizedBox(
               height: height * .45,
               width: width,
               child: FutureBuilder<HeadlineModel>(
@@ -125,10 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
-                        child: SpinKitThreeBounce(
-                      color: Colors.blue,
-                      size: 40,
-                    ));
+                      child: SpinKitThreeBounce(
+                        color: Colors.blue,
+                        size: 40,
+                      ),
+                    );
                   } else {
                     return ListView.builder(
                       itemCount: snapshot.data!.articles!.length,
@@ -137,6 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         DateTime dateTime = DateTime.parse(snapshot
                             .data!.articles![index].publishedAt
                             .toString());
+
                         return SizedBox(
                           child: Stack(
                             alignment: Alignment.center,
@@ -240,7 +243,101 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              child: FutureBuilder<CategoriesModel>(
+                future: newsViewModel.fetchCategoryApi('General'),
+                builder: (BuildContext context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: SpinKitThreeBounce(
+                        color: Colors.blue,
+                        size: 40,
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.articles!.length,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        DateTime dateTime = DateTime.parse(snapshot
+                            .data!.articles![index].publishedAt
+                            .toString());
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: CachedNetworkImage(
+                                  imageUrl: snapshot
+                                      .data!.articles![index].urlToImage
+                                      .toString(),
+                                  fit: BoxFit.cover,
+                                  height: height * 0.18,
+                                  width: width * 0.3,
+                                  placeholder: (context, url) => Container(
+                                    child: const SpinKitChasingDots(
+                                        color: Colors.amberAccent),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error_outline,
+                                          color: Colors.black),
+                                ),
+                              ),
+                              Expanded(
+                                child: Container(
+                                  height: height * 0.18,
+                                  padding: EdgeInsets.only(left: 3),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        snapshot.data!.articles![index].title
+                                            .toString(),
+                                        style: GoogleFonts.poppins(
+                                            fontSize: 15,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Spacer(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            textAlign: TextAlign.right,
+                                            snapshot.data!.articles![index]
+                                                .source!.name
+                                                .toString(),
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 10,
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          Text(
+                                            format.format(dateTime),
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 10,
+                                                color: Colors.black54,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
           ],
         ));
   }
