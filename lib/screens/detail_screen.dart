@@ -4,15 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class NewsDetailScreen extends StatefulWidget {
-  String newsImage;
-  String newsTitle;
-  String newsDate;
-  String newsAuthor;
-  String newsDesc;
-  String newsContent;
-  String newsSource;
-  NewsDetailScreen(this.newsImage, this.newsTitle, this.newsDate,
-      this.newsAuthor, this.newsDesc, this.newsContent, this.newsSource);
+  final String newsImage,
+      newstitle,
+      newsDate,
+      author,
+      description,
+      content,
+      source;
+
+  const NewsDetailScreen(
+      {super.key,
+      required this.newsImage,
+      required this.newstitle,
+      required this.newsDate,
+      required this.author,
+      required this.description,
+      required this.content,
+      required this.source});
 
   @override
   State<NewsDetailScreen> createState() => _NewsDetailScreenState();
@@ -25,7 +33,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.newsDesc);
+    print(widget.description);
   }
 
   @override
@@ -78,7 +86,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     topRight: Radius.circular(30))),
             child: ListView(
               children: [
-                Text('${widget.newsTitle}',
+                Text('${widget.newstitle}',
                     style: GoogleFonts.poppins(
                         fontSize: 20,
                         color: Colors.black87,
@@ -90,7 +98,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     Expanded(
                       child: Container(
                         child: Text(
-                          '${widget.newsSource}',
+                          '${widget.source}',
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
@@ -114,7 +122,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 SizedBox(
                   height: Kheight * 0.03,
                 ),
-                Text('${widget.newsDesc}',
+                Text('${widget.description}',
                     style: GoogleFonts.poppins(
                         fontSize: 15,
                         color: Colors.black87,
@@ -122,12 +130,11 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 SizedBox(
                   height: Kheight * 0.03,
                 ),
-                // Text('${widget.newsContent}',
-                //     maxLines: 20,
-                //     style: GoogleFonts.poppins(
-                //         fontSize: 15,
-                //         color: Colors.black87,
-                //         fontWeight: FontWeight.w500)),
+                Text('${widget.content}',
+                    style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500)),
                 SizedBox(
                   height: Kheight * 0.03,
                 ),
